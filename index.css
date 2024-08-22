@@ -9,7 +9,7 @@ body {
 }
 
 .container {
-    display: none;
+    display: block;
     text-align: center;
 }
 

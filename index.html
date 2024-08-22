@@ -7,14 +7,6 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
-<!-- Login Form -->
-<div class="login-form">
-  <h2>Login</h2>
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
-  <button onclick="login()">Login</button>
-  <p id="login-error" style="color: red;"></p>
-</div>
 
 <!-- Main Content -->
 <div class="main-content container">
@@ -33,22 +25,6 @@
 </div>
 
 <script>
-  const validUsername = 'admin';
-  const validPassword = 'admin';
-
-  function login() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const errorElement = document.getElementById('login-error');
-
-    if (username === validUsername && password === validPassword) {
-      document.querySelector('.login-form').style.display = 'none';
-      document.querySelector('.main-content').style.display = 'block';
-    } else {
-      errorElement.textContent = 'Invalid login credentials';
-    }
-  }
-
   function processData(type) {
     const dataInput = document.getElementById('dataInput').value;
     const outputElement = document.getElementById('output');
