@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weapon Data</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<!-- Login Form -->
+<div class="login-form">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="login()">Login</button>
+  <p id="login-error" style="color: red;"></p>
+</div>
+
+<!-- Main Content -->
+<div class="main-content container">
+  <h2>Weapon Data</h2>
+  <input type="text" id="dataInput" placeholder="Enter data like 53-62403, 74-20451, 203">
+  <div>
+    <button style="border: blue solid 2px;" onclick="processData('Mortar')">Mortar</button>
+    <button style="border: red solid 2px;" onclick="processData('Artillery')">Artillery</button>
+    <button style="border: yellow solid 2px;" onclick="processData('Rocket')">Rocket</button>
+  </div>
+  <div class="output-container">
+    <div class="output" id="output"></div>
+    <button id="copyButton" onclick="copyToClipboard()">Copy</button>
+  </div>
+  <div id="notification" class="notification"></div>
+</div>
+
+<script>
+  const validUsername = 'admin';
+  const validPassword = 'admin';
+
+  function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const errorElement = document.getElementById('login-error');
+
+    if (username === validUsername && password === validPassword) {
+      document.querySelector('.login-form').style.display = 'none';
+      document.querySelector('.main-content').style.display = 'block';
+    } else {
+      errorElement.textContent = 'Invalid login credentials';
+    }
+  }
+
+  function processData(type) {
+    const dataInput = document.getElementById('dataInput').value;
+    const outputElement = document.getElementById('output');
+
+    const dataParts = dataInput.split(/[\s,]+/); // Split on spaces or commas
+    if (dataParts.length < 3) {
+      outputElement.textContent = 'Invalid input format';
+      return;
+    }
+
+    const [x, y] = dataParts;
+
+    let typeChar;
+    switch(type) {
+      case 'Mortar':
+        typeChar = 'M';
+        break;
+      case 'Artillery':
+        typeChar = 'A';
+        break;
+      case 'Rocket':
+        typeChar = 'P';
+        break;
+      default:
+        typeChar = 'M';
+    }
+
+    const result = `X${x}\nY${y}\n${typeChar}028.1.`;
+
+    outputElement.textContent = result.trim();
+  }
+
+  function copyToClipboard() {
+    const outputElement = document.getElementById('output');
+    const textToCopy = outputElement.textContent;
+
+    // Create a temporary textarea element to hold the text
+    const tempTextarea = document.createElement('textarea');
+    tempTextarea.value = textToCopy;
+    document.body.appendChild(tempTextarea);
+
+    // Select and copy the text
+    tempTextarea.select();
+    document.execCommand('copy');
+
+    // Remove the temporary textarea
+    document.body.removeChild(tempTextarea);
+
+    showNotification('Result copied to clipboard!');
+  }
+
+  function showNotification(message) {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.classList.add('visible');
+
+    // Hide the notification after 3 seconds
+    setTimeout(() => {
+      notification.classList.remove('visible');
+    }, 3000);
+  }
+</script>
+</body>
+</html>
